@@ -31,8 +31,38 @@
 </head>
 <body>
 
+  <!-- ============ FIXED HEADER + MENU ============ -->
+  <div class="site-head">
+    <a class="site-mark" href="#top" aria-label="Sathyaya — back to top">
+      <img src="/assets/apple-touch-icon.png" alt="" width="40" height="40">
+    </a>
+    <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="menu" hidden>
+      <span class="menu-btn-lines" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="visually-hidden">Menu</span>
+    </button>
+  </div>
+
+  <nav class="menu" id="menu">
+    <p class="label menu-eyebrow">Menu</p>
+    <ul class="menu-list">
+      <li><a href="#why">Why we exist</a></li>
+      <li><a href="#what">What we do</a></li>
+      <li><a href="#film">First film</a></li>
+      <li><a href="#designers">For designers</a></li>
+      <li><a href="#updates">Get the stories</a></li>
+      <li><a href="mailto:techsavvy356@gmail.com">Contact us</a></li>
+    </ul>
+    <div class="menu-foot">
+      <a href="https://instagram.com/wearesathyaya" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.facebook.com/share/1DAGEsWiWT/" target="_blank" rel="noopener">Facebook</a>
+      <span class="label">Melbourne&nbsp;/&nbsp;Colombo</span>
+    </div>
+    <span class="menu-sinhala sinhala" aria-hidden="true">සත්‍යය</span>
+    <span class="menu-circle" aria-hidden="true"></span>
+  </nav>
+
   <!-- ============ 1. HERO ============ -->
-  <header class="hero">
+  <header class="hero" id="top">
     <p class="eyebrow" data-rise>Melbourne&nbsp;/&nbsp;Colombo</p>
 
     <h1 class="hero-wordmark" data-rise>Sathyaya</h1>
@@ -61,7 +91,7 @@
   </header>
 
   <!-- ============ WHY WE EXIST ============ -->
-  <section class="section manifesto">
+  <section class="section manifesto" id="why">
     <p class="label" data-rise>Why we exist</p>
     <div data-rise-group>
       <h2>South Asian craft is everywhere. Credit for it isn’t.</h2>
@@ -75,7 +105,7 @@
   </section>
 
   <!-- ============ 2. WHAT WE DO ============ -->
-  <section class="section what-we-do">
+  <section class="section what-we-do" id="what">
     <p class="label" data-rise>What we do</p>
 
     <div class="pillar" data-rise-group>
@@ -144,7 +174,7 @@
   </section>
 
   <!-- ============ FIRST FILM ============ -->
-  <section class="section first-film">
+  <section class="section first-film" id="film">
     <p class="label" data-rise>First film</p>
     <div data-rise-group>
       <h2>The first film is in the works.</h2>
@@ -156,7 +186,7 @@
   </section>
 
   <!-- ============ 4. FOR DESIGNERS ============ -->
-  <section class="section for-designers">
+  <section class="section for-designers" id="designers">
     <p class="label" data-rise>For designers</p>
 
     <h2 class="pitch" data-rise>
@@ -201,7 +231,7 @@
   </section>
 
   <!-- ============ NEWSLETTER ============ -->
-  <section class="section newsletter">
+  <section class="section newsletter" id="updates">
     <p class="label" data-rise>Stay close</p>
     <div data-rise-group>
       <h2>Get the stories first.</h2>
