@@ -4,7 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sathyaya — the truth behind South Asian fashion</title>
-  <meta name="description" content="Sathyaya tells the true stories behind South Asian fashion and connects emerging South Asian designers with buyers in Australia and the diaspora.">
+  <meta name="description" content="Sathyaya tells the real stories behind South Asian fashion and helps new South Asian designers reach buyers in Australia and the diaspora.">
+
+  <!-- Social sharing. Update the domain below once the Netlify site name / custom domain is set. -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Sathyaya — the truth behind South Asian fashion">
+  <meta property="og:description" content="The real stories behind South Asian fashion. Craft stories, accountability and designer films — from Melbourne and Colombo.">
+  <meta property="og:url" content="https://sathyaya.netlify.app/">
+  <meta property="og:image" content="https://sathyaya.netlify.app/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Sathyaya — the truth behind South Asian fashion">
+  <meta name="twitter:description" content="The real stories behind South Asian fashion. Craft stories, accountability and designer films — from Melbourne and Colombo.">
+  <meta name="twitter:image" content="https://sathyaya.netlify.app/assets/og-image.png">
+
+  <link rel="icon" type="image/png" sizes="64x64" href="/assets/favicon.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/icon-512.png">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,14 +46,33 @@
     </p>
 
     <p class="hero-desc" data-rise>
-      We tell the true stories behind South Asian fashion, and introduce
-      the designers making it to buyers who can back them.
+      We tell the real stories behind South Asian fashion, and help new
+      designers reach buyers who can back them.
     </p>
 
-    <a class="btn" href="https://instagram.com/wearesathyaya" target="_blank" rel="noopener" data-rise>
-      Follow @wearesathyaya
-    </a>
+    <div class="hero-actions" data-rise>
+      <a class="btn" href="https://instagram.com/wearesathyaya" target="_blank" rel="noopener">
+        Follow @wearesathyaya
+      </a>
+      <a class="btn" href="mailto:techsavvy356@gmail.com">
+        Contact us
+      </a>
+    </div>
   </header>
+
+  <!-- ============ WHY WE EXIST ============ -->
+  <section class="section manifesto">
+    <p class="label" data-rise>Why we exist</p>
+    <div data-rise-group>
+      <h2>South Asian craft is everywhere. Credit for it isn’t.</h2>
+      <p>
+        You’ve seen the work — on runways, in lookbooks, in every “new”
+        collection. What you rarely see is who made it first. Sathyaya is here
+        to change that. We name the makers, tell their stories properly, and
+        help buyers find the real thing.
+      </p>
+    </div>
+  </section>
 
   <!-- ============ 2. WHAT WE DO ============ -->
   <section class="section what-we-do">
@@ -45,10 +81,10 @@
     <div class="pillar" data-rise-group>
       <p class="label pillar-label">Craft stories</p>
       <div class="pillar-body">
-        <h2>The real history behind the design</h2>
+        <h2>Where the designs come from</h2>
         <p>
-          Every motif has a maker. We trace the looms, the dyes and the hands
-          behind South Asian design, and tell that history straight.
+          Every pattern has a history. We trace it back to the looms, the dyes
+          and the people, and tell that story properly.
         </p>
       </div>
     </div>
@@ -56,10 +92,10 @@
     <div class="pillar" data-rise-group>
       <p class="label pillar-label">Accountability</p>
       <div class="pillar-body">
-        <h2>Verified coverage, on the record</h2>
+        <h2>Credit where it’s due</h2>
         <p>
-          When a brand takes without credit, we cover it. Sourced, checked and
-          documented. Not a pile-on — a paper trail.
+          When a brand copies South Asian work without credit, we report on it.
+          Checked facts, named sources, on the record.
         </p>
       </div>
     </div>
@@ -69,8 +105,9 @@
       <div class="pillar-body">
         <h2>Films that reach real buyers</h2>
         <p>
-          Short films introducing emerging South Asian designers to buyers in
-          Australia and the diaspora — people who can actually purchase the work.
+          We make short films about new South Asian designers and put them in
+          front of buyers in Australia and the diaspora — people who can
+          actually buy the work.
         </p>
       </div>
     </div>
@@ -106,6 +143,18 @@
     <p class="break-line" data-rise><em>The pattern was never anonymous.</em></p>
   </section>
 
+  <!-- ============ FIRST FILM ============ -->
+  <section class="section first-film">
+    <p class="label" data-rise>First film</p>
+    <div data-rise-group>
+      <h2>The first film is in the works.</h2>
+      <p>
+        One designer. Their story, their work, and a direct link to buy it.
+        It premieres on our Instagram — follow along.
+      </p>
+    </div>
+  </section>
+
   <!-- ============ 4. FOR DESIGNERS ============ -->
   <section class="section for-designers">
     <p class="label" data-rise>For designers</p>
@@ -116,7 +165,7 @@
       You keep the film forever.
     </h2>
 
-    <form name="designer-interest" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="interest-form" data-rise-group>
+    <form name="designer-interest" method="POST" action="/thanks.html" data-netlify="true" netlify-honeypot="bot-field" class="interest-form" data-rise-group>
       <input type="hidden" name="form-name" value="designer-interest">
       <p class="hidden-field">
         <label>Don’t fill this out: <input name="bot-field"></label>
@@ -151,11 +200,34 @@
     </form>
   </section>
 
+  <!-- ============ NEWSLETTER ============ -->
+  <section class="section newsletter">
+    <p class="label" data-rise>Stay close</p>
+    <div data-rise-group>
+      <h2>Get the stories first.</h2>
+      <p>One email when we publish something new. No spam, and you can unsubscribe anytime.</p>
+      <form name="updates" method="POST" action="/thanks.html" data-netlify="true" netlify-honeypot="bot-field" class="newsletter-form">
+        <input type="hidden" name="form-name" value="updates">
+        <p class="hidden-field">
+          <label>Don’t fill this out: <input name="bot-field"></label>
+        </p>
+        <div class="newsletter-row">
+          <div class="field">
+            <label for="n-email" class="label">Email</label>
+            <input id="n-email" name="email" type="email" autocomplete="email" required>
+          </div>
+          <button type="submit" class="btn">Sign up</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
   <!-- ============ 5. FOOTER ============ -->
   <footer class="footer">
     <p class="footer-mark">Sathyaya — <em>the truth</em></p>
     <nav class="footer-links">
       <a href="https://instagram.com/wearesathyaya" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.facebook.com/share/1DAGEsWiWT/" target="_blank" rel="noopener">Facebook</a>
       <a href="mailto:techsavvy356@gmail.com">techsavvy356@gmail.com</a>
     </nav>
     <p class="label footer-note">Melbourne&nbsp;/&nbsp;Colombo</p>
