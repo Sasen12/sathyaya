@@ -350,6 +350,115 @@ section[id], header[id] { scroll-margin-top: 4.5rem; }
   justify-content: center;
 }
 
+/* ---------- scroll cue ---------- */
+
+.scroll-cue {
+  margin-top: clamp(3rem, 8vh, 5rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.scroll-cue i {
+  display: block;
+  width: 1px;
+  height: 2.6rem;
+  background: var(--ink);
+  opacity: 0.4;
+  transform-origin: top;
+  animation: cue 2.2s ease-in-out infinite;
+}
+
+@keyframes cue {
+  0%   { transform: scaleY(0.15); }
+  55%  { transform: scaleY(1); }
+  100% { transform: scaleY(0.15); }
+}
+
+/* ---------- progress thread ---------- */
+
+.thread {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: max(calc(var(--gutter) / 2), 0.6rem);
+  width: 1px;
+  background: rgba(16, 13, 10, 0.08);
+  z-index: 4;
+  display: none;
+}
+
+.thread i {
+  display: block;
+  position: absolute;
+  inset: 0;
+  background: var(--madder);
+  opacity: 0.6;
+  transform: scaleY(0);
+  transform-origin: top;
+}
+
+.thread.thread-on { display: block; }
+
+/* ---------- the thread: pinned scroll story ---------- */
+
+.story {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: var(--section-pad) var(--gutter);
+}
+
+/* default (no JS / reduced motion): four stacked lines along a hairline */
+.story-step {
+  padding: clamp(1.8rem, 5vh, 3rem) 0 clamp(1.8rem, 5vh, 3rem) 1.6rem;
+  border-left: 1px solid var(--line);
+}
+
+.story-line {
+  font-family: var(--serif);
+  font-weight: 380;
+  font-size: clamp(1.9rem, 5.2vw, 3.4rem);
+  line-height: 1.15;
+  margin-top: 0.8rem;
+  max-width: 18ch;
+}
+
+.story-step-truth .story-line em { color: var(--madder); }
+
+/* pinned mode: JS adds .is-pinned and steps through the lines on scroll */
+.story.is-pinned {
+  max-width: none;
+  height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.story.is-pinned .story-steps {
+  position: relative;
+  width: 100%;
+  max-width: 60rem;
+  height: 50svh;
+}
+
+.story.is-pinned .story-step {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-left: none;
+  padding: 0 var(--gutter);
+}
+
+.story.is-pinned .story-line {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 /* ---------- manifesto / first film / newsletter ---------- */
 
 .manifesto h2,

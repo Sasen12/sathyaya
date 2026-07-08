@@ -64,6 +64,83 @@
     .from(letters, { yPercent: 60, autoAlpha: 0, duration: 1.1, stagger: 0.055 }, 0.15)
     .from(heroRise, { y: 30, autoAlpha: 0, duration: 1, stagger: 0.12 }, 0.7);
 
+  // --- Hero: recedes and fades as you scroll into the story ---
+  gsap.to(".hero", {
+    yPercent: -6,
+    autoAlpha: 0,
+    ease: "none",
+    scrollTrigger: {
+      trigger: ".hero",
+      start: "top top",
+      end: "bottom 45%",
+      scrub: true
+    }
+  });
+
+  // --- The thread story: pin and step through the four lines ---
+  var story = document.querySelector(".story");
+  if (story) {
+    story.classList.add("is-pinned");
+    var steps = gsap.utils.toArray(".story-step");
+    gsap.set(steps, { autoAlpha: 0, y: 50 });
+
+    var storyTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: story,
+        start: "top top",
+        end: "+=" + steps.length * 85 + "%",
+        pin: true,
+        scrub: 0.6
+      }
+    });
+
+    steps.forEach(function (step, i) {
+      storyTl.to(step, { autoAlpha: 1, y: 0, duration: 1, ease: "power2.out" });
+      if (i < steps.length - 1) {
+        storyTl.to(step, { autoAlpha: 0, y: -50, duration: 1, ease: "power2.in" }, "+=0.5");
+      } else {
+        storyTl.to({}, { duration: 0.8 }); // hold the last line before unpinning
+      }
+    });
+  }
+
+  // --- Full-bleed line: words surface one by one, scrubbed to scroll ---
+  var breakEm = document.querySelector(".break-line em");
+  if (breakEm) {
+    breakEm.innerHTML = breakEm.textContent
+      .split(" ")
+      .map(function (w) { return '<span class="w">' + w + "</span>"; })
+      .join(" ");
+    gsap.from(breakEm.querySelectorAll(".w"), {
+      autoAlpha: 0.12,
+      y: 14,
+      stagger: 0.15,
+      ease: "none",
+      scrollTrigger: {
+        trigger: ".break",
+        start: "top 75%",
+        end: "center center",
+        scrub: true
+      }
+    });
+  }
+
+  // --- Progress thread: draws down the page edge as you read ---
+  var thread = document.querySelector(".thread");
+  if (thread) {
+    thread.classList.add("thread-on");
+    gsap.to(thread.querySelector("i"), {
+      scaleY: 1,
+      ease: "none",
+      scrollTrigger: {
+        trigger: document.documentElement,
+        start: 0,
+        end: "max",
+        scrub: true
+      }
+    });
+  }
+
   // --- Text below the fold: rise and fade in on scroll ---
   gsap.utils.toArray("[data-rise]").forEach(function (el) {
     if (el.closest(".hero")) return;

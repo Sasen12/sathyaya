@@ -27,9 +27,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="styles.css?v=2">
+  <link rel="stylesheet" href="styles.css?v=3">
 </head>
 <body>
+
+  <!-- progress "thread" drawn down the page edge as you scroll (JS enables it) -->
+  <div class="thread" aria-hidden="true"><i></i></div>
 
   <!-- ============ FIXED HEADER + MENU ============ -->
   <div class="site-head">
@@ -88,7 +91,35 @@
         Follow @wearesathyaya
       </a>
     </div>
+
+    <div class="scroll-cue" data-rise aria-hidden="true">
+      <span class="label">Scroll</span>
+      <i></i>
+    </div>
   </header>
+
+  <!-- ============ THE THREAD: pinned scroll story ============ -->
+  <!-- Without JS this reads as four stacked lines; with JS it pins and steps through them. -->
+  <section class="story" aria-label="The story, in four lines">
+    <div class="story-steps">
+      <div class="story-step">
+        <p class="label">The craft</p>
+        <p class="story-line">A weaver spends a month on one sari.</p>
+      </div>
+      <div class="story-step">
+        <p class="label">The copy</p>
+        <p class="story-line">A brand prints the motif in a week.</p>
+      </div>
+      <div class="story-step">
+        <p class="label">The erasure</p>
+        <p class="story-line">The credit never leaves the runway.</p>
+      </div>
+      <div class="story-step story-step-truth">
+        <p class="label">The truth</p>
+        <p class="story-line"><em>We follow the thread back.</em></p>
+      </div>
+    </div>
+  </section>
 
   <!-- ============ WHY WE EXIST ============ -->
   <section class="section manifesto" id="why">
@@ -170,7 +201,7 @@
   <section class="break media" data-parallax>
     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Complicated_hand-loom_for_silk_weaving%2C_Kanchipuram%2C_Tamil_Nadu.jpg/1920px-Complicated_hand-loom_for_silk_weaving%2C_Kanchipuram%2C_Tamil_Nadu.jpg"
          alt="A silk handloom in Kanchipuram, Tamil Nadu" loading="lazy" decoding="async">
-    <p class="break-line" data-rise><em>The pattern was never anonymous.</em></p>
+    <p class="break-line"><em>The pattern was never anonymous.</em></p>
   </section>
 
   <!-- ============ FIRST FILM ============ -->
@@ -265,6 +296,6 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-  <script src="script.js?v=2" defer></script>
+  <script src="script.js?v=3" defer></script>
 </body>
 </html>
