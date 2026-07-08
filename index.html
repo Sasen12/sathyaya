@@ -27,7 +27,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="styles.css?v=4">
+  <link rel="stylesheet" href="styles.css?v=5">
 </head>
 <body>
 
@@ -111,67 +111,84 @@
     </div>
     <div class="story-steps">
       <div class="story-step">
-        <p class="label">The craft</p>
+        <p class="label"><span class="step-num">01</span>The craft</p>
         <p class="story-line">A weaver spends a month on one sari.</p>
       </div>
       <div class="story-step">
-        <p class="label">The copy</p>
+        <p class="label"><span class="step-num">02</span>The copy</p>
         <p class="story-line">A brand prints the motif in a week.</p>
       </div>
       <div class="story-step">
-        <p class="label">The erasure</p>
+        <p class="label"><span class="step-num">03</span>The erasure</p>
         <p class="story-line">The credit never leaves the runway.</p>
       </div>
       <div class="story-step story-step-truth">
-        <p class="label">The truth</p>
+        <p class="label"><span class="step-num">04</span>The truth</p>
         <p class="story-line"><em>We follow the thread back.</em></p>
       </div>
+    </div>
+    <!-- image credits, faded in sync with each backing image -->
+    <div class="story-credits" aria-hidden="true">
+      <span class="label story-credit">Handloom saree weaving</span>
+      <span class="label story-credit">Block printing — Jaipur</span>
+      <span class="label story-credit">Block printing — Jaipur</span>
+      <span class="label story-credit">A weaver — Sri Lanka</span>
     </div>
   </section>
 
   <!-- ============ WHY WE EXIST ============ -->
   <section class="section manifesto" id="why">
     <p class="label" data-rise>Why we exist</p>
-    <div data-rise-group>
-      <h2>South Asian craft is everywhere. Credit for it isn’t.</h2>
-      <p>
-        You’ve seen the work — on runways, in lookbooks, in every “new”
-        collection. What you rarely see is who made it first. Sathyaya is here
-        to change that. We name the makers, tell their stories properly, and
-        help buyers find the real thing.
-      </p>
-    </div>
+    <h2 data-words>South Asian craft is everywhere. Credit for it isn’t.</h2>
+    <p data-rise>
+      You’ve seen the work — on runways, in lookbooks, in every “new”
+      collection. What you rarely see is who made it first. Sathyaya is here
+      to change that. We name the makers, tell their stories properly, and
+      help buyers find the real thing.
+    </p>
   </section>
 
   <!-- ============ 2. WHAT WE DO ============ -->
   <section class="section what-we-do" id="what">
     <p class="label" data-rise>What we do</p>
 
-    <div class="pillar" data-rise-group>
-      <p class="label pillar-label">Craft stories</p>
-      <div class="pillar-body">
+    <div class="pillar">
+      <p class="label pillar-label" data-rise>Craft stories</p>
+      <div class="pillar-body" data-rise-group>
         <h2>Where the designs come from</h2>
         <p>
           Every pattern has a history. We trace it back to the looms, the dyes
           and the people, and tell that story properly.
         </p>
       </div>
+      <!-- PLACEHOLDER: replace with real designer photography. Wikimedia Commons: kalamkari, Srikalahasti -->
+      <figure class="media pillar-media">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/KALAMKARI_HAND_PAINTED_CLOTH_SRIKALAHASTI_AP_-_panoramio.jpg/1920px-KALAMKARI_HAND_PAINTED_CLOTH_SRIKALAHASTI_AP_-_panoramio.jpg"
+             alt="Kalamkari hand-painted cloth from Srikalahasti" loading="lazy" decoding="async">
+        <figcaption class="label">Kalamkari — painted by hand</figcaption>
+      </figure>
     </div>
 
-    <div class="pillar" data-rise-group>
-      <p class="label pillar-label">Accountability</p>
-      <div class="pillar-body">
+    <div class="pillar">
+      <p class="label pillar-label" data-rise>Accountability</p>
+      <div class="pillar-body" data-rise-group>
         <h2>Credit where it’s due</h2>
         <p>
           When a brand copies South Asian work without credit, we report on it.
           Checked facts, named sources, on the record.
         </p>
       </div>
+      <!-- PLACEHOLDER: replace with real designer photography. Wikimedia Commons: 18th-c. Varanasi sari, museum record -->
+      <figure class="media pillar-media">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Sari_from_India%2C_Varanasi%2C_18th_century%2C_Honolulu_Museum_of_Art_10911.1.JPG/1920px-Sari_from_India%2C_Varanasi%2C_18th_century%2C_Honolulu_Museum_of_Art_10911.1.JPG"
+             alt="An 18th-century sari from Varanasi in a museum collection" loading="lazy" decoding="async">
+        <figcaption class="label">Varanasi, 1700s — on the record</figcaption>
+      </figure>
     </div>
 
-    <div class="pillar" data-rise-group>
-      <p class="label pillar-label">Designer spotlights</p>
-      <div class="pillar-body">
+    <div class="pillar">
+      <p class="label pillar-label" data-rise>Designer spotlights</p>
+      <div class="pillar-body" data-rise-group>
         <h2>Films that reach real buyers</h2>
         <p>
           We make short films about new South Asian designers and put them in
@@ -179,6 +196,12 @@
           actually buy the work.
         </p>
       </div>
+      <!-- PLACEHOLDER: replace with real designer photography. Wikimedia Commons: charkha -->
+      <figure class="media pillar-media">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Charkha_spinning_wheel.jpg/1920px-Charkha_spinning_wheel.jpg"
+             alt="A charkha spinning wheel" loading="lazy" decoding="async">
+        <figcaption class="label">Where every thread starts</figcaption>
+      </figure>
     </div>
 
   </section>
@@ -222,6 +245,9 @@
     <div class="marquee-track">
       <span>Sathyaya&nbsp;·&nbsp;<span class="sinhala">සත්‍යය</span>&nbsp;·&nbsp;</span><span>Sathyaya&nbsp;·&nbsp;<span class="sinhala">සත්‍යය</span>&nbsp;·&nbsp;</span><span>Sathyaya&nbsp;·&nbsp;<span class="sinhala">සත්‍යය</span>&nbsp;·&nbsp;</span><span>Sathyaya&nbsp;·&nbsp;<span class="sinhala">සත්‍යය</span>&nbsp;·&nbsp;</span>
     </div>
+    <div class="marquee-track marquee-track-rev">
+      <span><em>the truth</em>&nbsp;·&nbsp;say who made it&nbsp;·&nbsp;</span><span><em>the truth</em>&nbsp;·&nbsp;say who made it&nbsp;·&nbsp;</span><span><em>the truth</em>&nbsp;·&nbsp;say who made it&nbsp;·&nbsp;</span><span><em>the truth</em>&nbsp;·&nbsp;say who made it&nbsp;·&nbsp;</span>
+    </div>
   </div>
 
   <!-- ============ 3. FULL-BLEED BREAK ============ -->
@@ -230,6 +256,7 @@
     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Complicated_hand-loom_for_silk_weaving%2C_Kanchipuram%2C_Tamil_Nadu.jpg/1920px-Complicated_hand-loom_for_silk_weaving%2C_Kanchipuram%2C_Tamil_Nadu.jpg"
          alt="A silk handloom in Kanchipuram, Tamil Nadu" loading="lazy" decoding="async">
     <p class="break-line"><em>The pattern was never anonymous.</em></p>
+    <span class="label break-credit">Silk handloom — Kanchipuram, Tamil Nadu</span>
   </section>
 
   <!-- ============ FIRST FILM ============ -->
@@ -242,6 +269,13 @@
         It premieres on our Instagram — follow along.
       </p>
     </div>
+    <!-- an empty film frame that draws itself as you scroll — waiting for the first premiere -->
+    <div class="film-frame" aria-hidden="true">
+      <svg viewBox="0 0 640 360" preserveAspectRatio="none">
+        <rect class="film-frame-rect" x="1" y="1" width="638" height="358" fill="none"></rect>
+      </svg>
+      <p class="label film-frame-note">Premiere — on our Instagram</p>
+    </div>
   </section>
 
   <!-- ============ SECOND FULL-BLEED BREAK ============ -->
@@ -250,6 +284,7 @@
     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/All_saris_must_dry_%285580804479%29.jpg/1920px-All_saris_must_dry_%285580804479%29.jpg"
          alt="Rows of saris laid out to dry" loading="lazy" decoding="async">
     <p class="break-line"><em>Say who made it.</em></p>
+    <span class="label break-credit">Saris laid out to dry</span>
   </section>
 
   <!-- ============ 4. FOR DESIGNERS ============ -->
@@ -321,17 +356,18 @@
 
   <!-- ============ 5. FOOTER ============ -->
   <footer class="footer">
-    <p class="footer-mark">Sathyaya — <em>the truth</em></p>
-    <nav class="footer-links">
+    <span class="footer-sinhala sinhala" aria-hidden="true">සත්‍යය</span>
+    <p class="footer-mark" data-rise>Sathyaya — <em>the truth</em></p>
+    <nav class="footer-links" data-rise>
       <a href="https://instagram.com/wearesathyaya" target="_blank" rel="noopener">Instagram</a>
       <a href="https://www.facebook.com/share/1DAGEsWiWT/" target="_blank" rel="noopener">Facebook</a>
       <a href="mailto:wearesathyaya@icloud.com">wearesathyaya@icloud.com</a>
     </nav>
-    <p class="label footer-note">Melbourne&nbsp;/&nbsp;Colombo</p>
+    <p class="label footer-note" data-rise>Melbourne&nbsp;/&nbsp;Colombo</p>
   </footer>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-  <script src="script.js?v=4" defer></script>
+  <script src="script.js?v=5" defer></script>
 </body>
 </html>

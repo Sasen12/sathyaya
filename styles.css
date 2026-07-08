@@ -451,6 +451,45 @@ section[id], header[id] { scroll-margin-top: 4.5rem; }
 
 .story-step-truth .story-line em { color: var(--madder); }
 
+.step-num {
+  color: var(--madder);
+  margin-right: 0.9em;
+}
+
+.story-credits { display: none; }
+
+.story.is-pinned .story-credits {
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 1.4rem;
+  z-index: 2;
+  text-align: center;
+  height: 1.2em;
+}
+
+.story-credit {
+  position: absolute;
+  left: 0;
+  right: 0;
+  color: rgba(242, 240, 235, 0.55);
+  opacity: 0;
+}
+
+.story.is-pinned .step-num { color: #C89B6A; }
+
+/* film grain over the dark room */
+.story.is-pinned::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/><feColorMatrix type='saturate' values='0'/></filter><rect width='140' height='140' filter='url(%23n)'/></svg>");
+}
+
 /* pinned mode: JS adds .is-pinned and steps through the lines on scroll.
    The story becomes a dark room; imagery crossfades behind each line. */
 .story.is-pinned {
@@ -572,9 +611,27 @@ section[id], header[id] { scroll-margin-top: 4.5rem; }
   color: var(--taupe);
 }
 
+.pillar-media {
+  width: min(100%, 22rem);
+  margin-top: 1.5rem;
+}
+
+.pillar-media img {
+  aspect-ratio: 4 / 5;
+}
+
+.pillar-media figcaption {
+  position: static;
+  color: var(--taupe);
+  text-shadow: none;
+  margin-top: 0.7rem;
+}
+
 @media (min-width: 760px) {
-  .pillar { grid-template-columns: 14rem 1fr; }
+  .pillar { grid-template-columns: 14rem 1fr minmax(14rem, 18rem); align-items: start; }
   .pillar-label { padding-top: 0.6rem; }
+  .pillar-media { margin-top: 0; }
+  .pillar:nth-child(even) .pillar-media { margin-top: 3rem; }
 }
 
 /* ---------- horizontal film strip ---------- */
@@ -689,6 +746,20 @@ section[id], header[id] { scroll-margin-top: 4.5rem; }
   padding-right: 1.5rem;
 }
 
+/* second row: smaller, italic, drifts the other way */
+.marquee-track-rev {
+  margin-top: 0.4rem;
+  animation-direction: reverse;
+}
+
+.marquee-track-rev > span {
+  font-size: clamp(1.3rem, 3.6vw, 2.4rem);
+  text-transform: none;
+  color: var(--taupe);
+}
+
+.marquee-track-rev em { color: var(--madder); }
+
 @keyframes marquee {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
@@ -712,6 +783,14 @@ section[id], header[id] { scroll-margin-top: 4.5rem; }
   z-index: 1;
 }
 
+.break-credit {
+  position: absolute;
+  left: var(--gutter);
+  bottom: 1.2rem;
+  z-index: 2;
+  color: rgba(242, 240, 235, 0.65);
+}
+
 .break-line {
   position: relative;
   z-index: 2;
@@ -723,6 +802,33 @@ section[id], header[id] { scroll-margin-top: 4.5rem; }
   text-align: center;
   max-width: 22ch;
   padding: 0 var(--gutter);
+}
+
+/* ---------- first film: the frame that draws itself ---------- */
+
+.film-frame {
+  position: relative;
+  max-width: 40rem;
+  margin: clamp(2.5rem, 7vh, 4rem) auto 0;
+}
+
+.film-frame svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.film-frame-rect {
+  stroke: var(--ink);
+  stroke-width: 2;
+}
+
+.film-frame-note {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* ---------- 4. for designers ---------- */
@@ -779,9 +885,30 @@ section[id], header[id] { scroll-margin-top: 4.5rem; }
 /* ---------- 5. footer ---------- */
 
 .footer {
+  position: relative;
+  overflow: hidden;
   border-top: 1px solid var(--line);
-  padding: clamp(3rem, 8vh, 5rem) var(--gutter);
+  padding: clamp(4rem, 12vh, 7rem) var(--gutter) clamp(3rem, 8vh, 5rem);
   text-align: center;
+}
+
+.footer-sinhala {
+  position: absolute;
+  left: 50%;
+  bottom: -0.22em;
+  transform: translateX(-50%);
+  font-size: clamp(7rem, 24vw, 18rem);
+  line-height: 1;
+  color: rgba(138, 51, 36, 0.07);
+  z-index: 0;
+  user-select: none;
+  pointer-events: none;
+}
+
+.footer > p,
+.footer > nav {
+  position: relative;
+  z-index: 1;
 }
 
 .footer-mark {

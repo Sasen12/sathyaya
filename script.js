@@ -97,11 +97,18 @@
       }
     });
 
+    var credits = gsap.utils.toArray(".story-credit");
+    gsap.set(credits, { autoAlpha: 0 });
+
     steps.forEach(function (step, i) {
       var img = imgs[i];
+      var credit = credits[i];
       storyTl.to(step, { autoAlpha: 1, y: 0, scale: 1, duration: 1, ease: "power2.out" });
       if (img) {
         storyTl.to(img, { autoAlpha: 0.85, scale: 1, duration: 1.2, ease: "power2.out" }, "<");
+      }
+      if (credit) {
+        storyTl.to(credit, { autoAlpha: 1, duration: 0.6 }, "<+=0.3");
       }
       if (i === 2 && img) {
         // the erasure: the image drains while its line is on screen
@@ -113,6 +120,9 @@
         storyTl.to(step, { autoAlpha: 0, y: -80, duration: 0.9, ease: "power2.in" });
         if (img) {
           storyTl.to(img, { autoAlpha: 0, duration: 0.9 }, "<");
+        }
+        if (credit) {
+          storyTl.to(credit, { autoAlpha: 0, duration: 0.5 }, "<");
         }
       } else {
         storyTl.to({}, { duration: 0.7 }); // hold the truth before unpinning
@@ -187,13 +197,18 @@
     );
   });
 
-  // --- Break lines: words surface one by one, scrubbed to scroll ---
-  gsap.utils.toArray(".break-line em").forEach(function (em) {
-    em.innerHTML = em.textContent
+  // --- Word-by-word reveals, scrubbed to scroll ---
+  function splitWords(el) {
+    el.innerHTML = el.textContent
       .split(" ")
-      .map(function (w) { return '<span class="w">' + w + "</span>"; })
+      .map(function (w) { return '<span class="w" style="display:inline-block">' + w + "</span>"; })
       .join(" ");
-    gsap.from(em.querySelectorAll(".w"), {
+    return el.querySelectorAll(".w");
+  }
+
+  // break lines
+  gsap.utils.toArray(".break-line em").forEach(function (em) {
+    gsap.from(splitWords(em), {
       autoAlpha: 0.12,
       y: 20,
       stagger: 0.15,
@@ -206,6 +221,78 @@
       }
     });
   });
+
+  // headlines marked data-words (manifesto)
+  gsap.utils.toArray("[data-words]").forEach(function (el) {
+    gsap.from(splitWords(el), {
+      autoAlpha: 0.1,
+      y: 24,
+      stagger: 0.12,
+      ease: "none",
+      scrollTrigger: {
+        trigger: el,
+        start: "top 88%",
+        end: "top 45%",
+        scrub: true
+      }
+    });
+  });
+
+  // --- Pillar images: slide in from alternating sides ---
+  gsap.utils.toArray(".pillar-media").forEach(function (m, i) {
+    gsap.from(m, {
+      x: i % 2 ? 110 : -110,
+      autoAlpha: 0,
+      duration: 1.2,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: m,
+        start: "top 88%",
+        once: true
+      }
+    });
+  });
+
+  // --- First film: the empty frame draws itself, then the note appears ---
+  var frameRect = document.querySelector(".film-frame-rect");
+  if (frameRect) {
+    var perim = 2 * (638 + 358);
+    gsap.set(frameRect, { strokeDasharray: perim, strokeDashoffset: perim });
+    gsap.to(frameRect, {
+      strokeDashoffset: 0,
+      ease: "none",
+      scrollTrigger: {
+        trigger: ".film-frame",
+        start: "top 90%",
+        end: "center 55%",
+        scrub: true
+      }
+    });
+    gsap.from(".film-frame-note", {
+      autoAlpha: 0,
+      duration: 0.8,
+      scrollTrigger: {
+        trigger: ".film-frame",
+        start: "center 60%",
+        once: true
+      }
+    });
+  }
+
+  // --- Footer finale: the watermark rises to meet you ---
+  var footerMark = document.querySelector(".footer-sinhala");
+  if (footerMark) {
+    gsap.from(footerMark, {
+      yPercent: 45,
+      ease: "none",
+      scrollTrigger: {
+        trigger: ".footer",
+        start: "top bottom",
+        end: "bottom bottom",
+        scrub: true
+      }
+    });
+  }
 
   // --- The craft, up close: pin and scrub the film strip sideways ---
   var strip = document.querySelector(".strip");
@@ -230,12 +317,20 @@
     });
   }
 
-  // --- Marquee: driven by scroll — speeds up, and reverses when you scroll back up ---
-  var track = document.querySelector(".marquee-track");
-  if (track) {
-    track.style.animation = "none";
-    var loop = gsap.to(track, { xPercent: -50, ease: "none", duration: 26, repeat: -1 });
+  // --- Marquee: two rows drifting opposite ways, driven by scroll —
+  //     they speed up with you and reverse when you scroll back up ---
+  var tracks = gsap.utils.toArray(".marquee-track");
+  if (tracks.length) {
+    var loops = tracks.map(function (t, i) {
+      t.style.animation = "none";
+      return i % 2 === 0
+        ? gsap.to(t, { xPercent: -50, ease: "none", duration: 26, repeat: -1 })
+        : gsap.fromTo(t, { xPercent: -50 }, { xPercent: 0, ease: "none", duration: 30, repeat: -1 });
+    });
     var proxy = { ts: 1 };
+    var applyTs = function () {
+      loops.forEach(function (l) { l.timeScale(proxy.ts); });
+    };
     ScrollTrigger.create({
       trigger: document.body,
       start: 0,
@@ -243,14 +338,9 @@
       onUpdate: function (self) {
         var v = gsap.utils.clamp(-2400, 2400, self.getVelocity());
         proxy.ts = 1 + v / 500;
-        loop.timeScale(proxy.ts);
+        applyTs();
         gsap.killTweensOf(proxy);
-        gsap.to(proxy, {
-          ts: 1,
-          duration: 1.2,
-          ease: "power2.out",
-          onUpdate: function () { loop.timeScale(proxy.ts); }
-        });
+        gsap.to(proxy, { ts: 1, duration: 1.2, ease: "power2.out", onUpdate: applyTs });
       }
     });
   }
