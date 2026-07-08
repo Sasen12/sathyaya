@@ -27,7 +27,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="styles.css?v=3">
+  <link rel="stylesheet" href="styles.css?v=4">
 </head>
 <body>
 
@@ -101,6 +101,14 @@
   <!-- ============ THE THREAD: pinned scroll story ============ -->
   <!-- Without JS this reads as four stacked lines; with JS it pins and steps through them. -->
   <section class="story" aria-label="The story, in four lines">
+    <!-- Backing imagery for the pinned story; hidden without JS. All placeholders from Wikimedia Commons. -->
+    <div class="story-media" aria-hidden="true">
+      <img class="story-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Saree_Weaving_by_Handloom_2.jpg/1920px-Saree_Weaving_by_Handloom_2.jpg" alt="" loading="eager" decoding="async">
+      <img class="story-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Jaipur_03-2016_10_textile_printing.jpg/1920px-Jaipur_03-2016_10_textile_printing.jpg" alt="" loading="eager" decoding="async">
+      <img class="story-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Jaipur_03-2016_11_textile_printing.jpg/1920px-Jaipur_03-2016_11_textile_printing.jpg" alt="" loading="eager" decoding="async">
+      <img class="story-img" src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Female_weaving_Sri_Lanka.JPG" alt="" loading="eager" decoding="async">
+      <span class="story-scrim"></span>
+    </div>
     <div class="story-steps">
       <div class="story-step">
         <p class="label">The craft</p>
@@ -173,18 +181,38 @@
       </div>
     </div>
 
-    <div class="image-row">
-      <!-- PLACEHOLDER: replace with real designer photography. Wikimedia Commons: sari weaving, Tamil Nadu -->
-      <figure class="media" data-parallax>
+  </section>
+
+  <!-- ============ THE CRAFT, UP CLOSE: horizontal film strip ============ -->
+  <!-- Without JS this is a native horizontal swipe; with JS it pins and scrubs sideways. -->
+  <!-- All PLACEHOLDER images from Wikimedia Commons — replace with real designer photography. -->
+  <section class="strip" aria-label="The craft, up close">
+    <p class="label strip-label" data-rise>The craft, up close</p>
+    <div class="strip-track">
+      <figure class="strip-item">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Complicated_hand-loom_for_silk_weaving%2C_Kanchipuram%2C_Tamil_Nadu.jpg/1920px-Complicated_hand-loom_for_silk_weaving%2C_Kanchipuram%2C_Tamil_Nadu.jpg"
+             alt="A silk handloom in Kanchipuram" loading="lazy" decoding="async">
+        <figcaption class="label">Silk handloom — Kanchipuram</figcaption>
+      </figure>
+      <figure class="strip-item">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Chikan_embroidery_on_a_saree_pallu.jpg/1920px-Chikan_embroidery_on_a_saree_pallu.jpg"
+             alt="Chikan embroidery on a saree pallu" loading="lazy" decoding="async">
+        <figcaption class="label">Chikan embroidery — Lucknow</figcaption>
+      </figure>
+      <figure class="strip-item">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Antique_Patan_Patola_Double_Ikat_Trade_Textile_courtesy_Wovensouls_Collection%2C_Singapore.jpg/1920px-Antique_Patan_Patola_Double_Ikat_Trade_Textile_courtesy_Wovensouls_Collection%2C_Singapore.jpg"
+             alt="Antique Patan patola double ikat textile" loading="lazy" decoding="async">
+        <figcaption class="label">Patan patola — double ikat</figcaption>
+      </figure>
+      <figure class="strip-item">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Textile_printing_blocks_at_the_Horniman_Museum.jpg/1920px-Textile_printing_blocks_at_the_Horniman_Museum.jpg"
+             alt="Carved wooden textile printing blocks" loading="lazy" decoding="async">
+        <figcaption class="label">Carved printing blocks</figcaption>
+      </figure>
+      <figure class="strip-item">
         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Saree_Weaving_by_Handloom_2.jpg/1920px-Saree_Weaving_by_Handloom_2.jpg"
              alt="Hands weaving a saree on a handloom" loading="lazy" decoding="async">
         <figcaption class="label">Handloom, not shortcut</figcaption>
-      </figure>
-      <!-- PLACEHOLDER: replace with real designer photography. Wikimedia Commons: weaver, Sri Lanka -->
-      <figure class="media" data-parallax>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Female_weaving_Sri_Lanka.JPG"
-             alt="A weaver working at a loom in Sri Lanka" loading="lazy" decoding="async">
-        <figcaption class="label">The maker has a name</figcaption>
       </figure>
     </div>
   </section>
@@ -214,6 +242,14 @@
         It premieres on our Instagram — follow along.
       </p>
     </div>
+  </section>
+
+  <!-- ============ SECOND FULL-BLEED BREAK ============ -->
+  <!-- PLACEHOLDER: replace with real designer photography. Wikimedia Commons: saris drying -->
+  <section class="break media" data-parallax>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/All_saris_must_dry_%285580804479%29.jpg/1920px-All_saris_must_dry_%285580804479%29.jpg"
+         alt="Rows of saris laid out to dry" loading="lazy" decoding="async">
+    <p class="break-line"><em>Say who made it.</em></p>
   </section>
 
   <!-- ============ 4. FOR DESIGNERS ============ -->
@@ -296,6 +332,6 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-  <script src="script.js?v=3" defer></script>
+  <script src="script.js?v=4" defer></script>
 </body>
 </html>

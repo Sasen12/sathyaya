@@ -409,6 +409,31 @@ section[id], header[id] { scroll-margin-top: 4.5rem; }
   padding: var(--section-pad) var(--gutter);
 }
 
+/* backing imagery: only shown in pinned mode */
+.story-media { display: none; }
+
+.story.is-pinned .story-media {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.story-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+}
+
+.story-scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(16, 13, 10, 0.55);
+}
+
 /* default (no JS / reduced motion): four stacked lines along a hairline */
 .story-step {
   padding: clamp(1.8rem, 5vh, 3rem) 0 clamp(1.8rem, 5vh, 3rem) 1.6rem;
@@ -426,7 +451,8 @@ section[id], header[id] { scroll-margin-top: 4.5rem; }
 
 .story-step-truth .story-line em { color: var(--madder); }
 
-/* pinned mode: JS adds .is-pinned and steps through the lines on scroll */
+/* pinned mode: JS adds .is-pinned and steps through the lines on scroll.
+   The story becomes a dark room; imagery crossfades behind each line. */
 .story.is-pinned {
   max-width: none;
   height: 100svh;
@@ -434,13 +460,26 @@ section[id], header[id] { scroll-margin-top: 4.5rem; }
   align-items: center;
   justify-content: center;
   text-align: center;
+  position: relative;
+  background: var(--ink);
+  color: var(--cream);
+  overflow: hidden;
 }
+
+.story.is-pinned .label { color: rgba(242, 240, 235, 0.6); }
+
+.story.is-pinned .story-line {
+  text-shadow: 0 2px 34px rgba(16, 13, 10, 0.5);
+}
+
+.story.is-pinned .story-step-truth .story-line em { color: #C89B6A; }
 
 .story.is-pinned .story-steps {
   position: relative;
   width: 100%;
   max-width: 60rem;
   height: 50svh;
+  z-index: 2;
 }
 
 .story.is-pinned .story-step {
@@ -538,16 +577,55 @@ section[id], header[id] { scroll-margin-top: 4.5rem; }
   .pillar-label { padding-top: 0.6rem; }
 }
 
-.image-row {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--gutter);
-  margin-top: var(--section-pad);
+/* ---------- horizontal film strip ---------- */
+
+.strip {
+  padding: var(--section-pad) 0;
+  overflow: hidden;
 }
 
-@media (min-width: 760px) {
-  .image-row { grid-template-columns: 1fr 1fr; }
-  .image-row .media:last-child { transform: translateY(3.5rem); }
+.strip-label {
+  display: block;
+  padding: 0 var(--gutter) 2rem;
+  max-width: 72rem;
+  margin: 0 auto;
+}
+
+/* default: native horizontal swipe with snap */
+.strip-track {
+  display: flex;
+  gap: clamp(1rem, 3vw, 2.5rem);
+  padding: 0 var(--gutter);
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+}
+
+.strip-item {
+  flex: 0 0 auto;
+  width: clamp(240px, 62vw, 460px);
+  scroll-snap-align: center;
+  margin: 0;
+}
+
+.strip-item img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+}
+
+.strip-item figcaption {
+  margin-top: 0.8rem;
+}
+
+.strip-item:nth-child(even) { transform: translateY(2.5rem); }
+
+/* pinned mode: JS pins the section and scrubs the track sideways */
+.strip.is-pinned .strip-track {
+  overflow: visible;
+  width: max-content;
+  scroll-snap-type: none;
 }
 
 /* ---------- media / image reveals ---------- */
