@@ -90,47 +90,25 @@
     });
   }
 
-  // --- Desktop only: full-site 3D. A woven plane runs behind the whole page,
-  //     evolving with scroll, and content tilts with scroll velocity.
+  // --- Desktop only: a woven plane of thread drifting behind the wordmark (WebGL).
   //     Phones never download Three.js; the site works identically without it. ---
-  var desktop3D =
+  var wantsHero3D =
     window.matchMedia("(pointer: fine)").matches && window.innerWidth >= 1024;
 
-  if (desktop3D) {
+  if (wantsHero3D) {
     var threeScript = document.createElement("script");
     threeScript.src = "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js";
-    threeScript.onload = initSite3D;
+    threeScript.onload = initHero3D;
     document.head.appendChild(threeScript);
-
-    // content leans in perspective with scroll speed, then settles.
-    // pinned sections (.story, .strip) are excluded — ScrollTrigger owns their transforms.
-    var skewTargets = gsap.utils.toArray(".section, .break, .marquee, .footer");
-    gsap.set(skewTargets, { transformOrigin: "50% 50%", force3D: true });
-    var skewSet = gsap.quickSetter(skewTargets, "skewY", "deg");
-    var skewProxy = { v: 0 };
-    var applySkew = function () { skewSet(skewProxy.v); };
-    ScrollTrigger.create({
-      trigger: document.body,
-      start: 0,
-      end: "max",
-      onUpdate: function (self) {
-        var v = gsap.utils.clamp(-3.5, 3.5, self.getVelocity() / -400);
-        if (Math.abs(v) > Math.abs(skewProxy.v)) {
-          skewProxy.v = v;
-          applySkew();
-          gsap.killTweensOf(skewProxy);
-          gsap.to(skewProxy, { v: 0, duration: 0.9, ease: "power3.out", onUpdate: applySkew });
-        }
-      }
-    });
   }
 
-  function initSite3D() {
+  function initHero3D() {
     try {
+      var hero = document.querySelector(".hero");
       var canvas = document.createElement("canvas");
-      canvas.className = "site-3d";
+      canvas.className = "hero-3d";
       canvas.setAttribute("aria-hidden", "true");
-      document.body.prepend(canvas);
+      hero.prepend(canvas);
 
       var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
       renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
@@ -156,11 +134,10 @@
       var pos = geo.attributes.position;
       var base = pos.array.slice();
       var mouse = { x: 0, y: 0 };
-      var flow = { p: 0, turb: 0 };
 
       function size() {
-        var w = window.innerWidth;
-        var h = window.innerHeight;
+        var w = hero.clientWidth;
+        var h = hero.clientHeight;
         renderer.setSize(w, h, false);
         camera.aspect = w / h;
         camera.updateProjectionMatrix();
@@ -168,43 +145,36 @@
       size();
       window.addEventListener("resize", size);
 
-      window.addEventListener("mousemove", function (e) {
+      hero.addEventListener("mousemove", function (e) {
         mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
         mouse.y = (e.clientY / window.innerHeight) * 2 - 1;
       });
 
-      // scroll position calms the weave; scroll speed stirs it
+      // only render while the hero is on screen and the tab is visible
+      var heroVisible = true;
       ScrollTrigger.create({
-        trigger: document.body,
-        start: 0,
-        end: "max",
-        onUpdate: function (self) {
-          flow.p = self.progress;
-          flow.turb = Math.min(1, flow.turb + Math.abs(self.getVelocity()) / 9000);
-        }
+        trigger: hero,
+        start: "top bottom",
+        end: "bottom top",
+        onToggle: function (self) { heroVisible = self.isActive; }
       });
 
       var t = 0;
       function render(time, delta) {
-        if (document.hidden) return;
-        flow.turb *= 0.95; // turbulence dies down on its own
-        var amp = (1 - flow.p * 0.5) * (1 + flow.turb * 1.6);
-        t += ((delta || 16) / 1000) * (1 + flow.turb * 2);
+        if (!heroVisible || document.hidden) return;
+        t += (delta || 16) / 1000;
         for (var i = 0; i < pos.count; i++) {
           var x = base[i * 3];
           var y = base[i * 3 + 1];
           pos.array[i * 3 + 2] =
-            (Math.sin(x * 0.55 + t) * 0.42 +
-              Math.cos(y * 0.7 + t * 0.8) * 0.32 +
-              Math.sin((x + y) * 0.25 + t * 0.5) * 0.22) * amp;
+            Math.sin(x * 0.55 + t) * 0.42 +
+            Math.cos(y * 0.7 + t * 0.8) * 0.32 +
+            Math.sin((x + y) * 0.25 + t * 0.5) * 0.22;
         }
         pos.needsUpdate = true;
-        mat.opacity = 0.12 - flow.p * 0.05 + flow.turb * 0.05;
         cloth.rotation.z += (mouse.x * 0.08 - cloth.rotation.z) * 0.04;
-        cloth.rotation.x = -Math.PI / 2.5 + flow.p * 0.3; // slowly levels as you descend
         camera.position.x += (mouse.x * 0.9 - camera.position.x) * 0.04;
         camera.position.y += (1.4 - mouse.y * 0.5 - camera.position.y) * 0.04;
-        camera.position.z = 7 - flow.p * 1.4; // gentle dolly-in over the page
         camera.lookAt(0, -0.5, 0);
         renderer.render(scene, camera);
       }
