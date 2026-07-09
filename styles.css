@@ -23,6 +23,13 @@
 
 html { scroll-behavior: smooth; }
 
+/* clip on BOTH html and body: overflow-x on body alone does not stop
+   Android from widening the layout viewport around transformed elements */
+html, body {
+  overflow-x: hidden;
+  overflow-x: clip;
+}
+
 body {
   background: var(--cream);
   color: var(--ink);
@@ -30,7 +37,7 @@ body {
   font-size: 1rem;
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  max-width: 100vw;
 }
 
 ::selection { background: var(--madder); color: var(--cream); }
