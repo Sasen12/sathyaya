@@ -61,8 +61,34 @@
   }
 
   gsap.timeline({ defaults: { ease: "power4.out" } })
-    .from(letters, { yPercent: 130, rotation: 7, autoAlpha: 0, duration: 1.4, stagger: 0.06 }, 0.15)
-    .from(heroRise, { y: 50, autoAlpha: 0, duration: 1.1, stagger: 0.14 }, 0.85);
+    .from(letters, {
+      yPercent: 120,
+      rotationX: -75,
+      transformPerspective: 900,
+      transformOrigin: "50% 100% -30px",
+      autoAlpha: 0,
+      duration: 1.5,
+      stagger: 0.06
+    }, 0.15)
+    .from(heroRise, { y: 50, autoAlpha: 0, duration: 1.1, stagger: 0.14 }, 0.9);
+
+  // --- Hero: the wordmark tilts gently toward the cursor (desktop only) ---
+  if (window.matchMedia("(pointer: fine)").matches && wordmark) {
+    var tiltX = gsap.quickTo(wordmark, "rotationY", { duration: 0.6, ease: "power2.out" });
+    var tiltY = gsap.quickTo(wordmark, "rotationX", { duration: 0.6, ease: "power2.out" });
+    gsap.set(wordmark, { transformPerspective: 900 });
+    document.querySelector(".hero").addEventListener("mousemove", function (e) {
+      var r = wordmark.getBoundingClientRect();
+      var dx = (e.clientX - (r.left + r.width / 2)) / r.width;
+      var dy = (e.clientY - (r.top + r.height / 2)) / r.height;
+      tiltX(dx * 7);
+      tiltY(dy * -7);
+    });
+    document.querySelector(".hero").addEventListener("mouseleave", function () {
+      tiltX(0);
+      tiltY(0);
+    });
+  }
 
   // --- Hero: recedes and fades as you scroll into the story ---
   gsap.to(".hero", {
@@ -99,13 +125,16 @@
 
     var credits = gsap.utils.toArray(".story-credit");
     gsap.set(credits, { autoAlpha: 0 });
+    // each line tips up from the floor of the dark room
+    gsap.set(steps, { rotationX: 45, transformPerspective: 900, transformOrigin: "50% 100%" });
+    gsap.set(imgs, { rotationX: 6, transformPerspective: 1400 });
 
     steps.forEach(function (step, i) {
       var img = imgs[i];
       var credit = credits[i];
-      storyTl.to(step, { autoAlpha: 1, y: 0, scale: 1, duration: 1, ease: "power2.out" });
+      storyTl.to(step, { autoAlpha: 1, y: 0, scale: 1, rotationX: 0, duration: 1, ease: "power2.out" });
       if (img) {
-        storyTl.to(img, { autoAlpha: 0.85, scale: 1, duration: 1.2, ease: "power2.out" }, "<");
+        storyTl.to(img, { autoAlpha: 0.85, scale: 1, rotationX: 0, duration: 1.2, ease: "power2.out" }, "<");
       }
       if (credit) {
         storyTl.to(credit, { autoAlpha: 1, duration: 0.6 }, "<+=0.3");
@@ -117,7 +146,7 @@
         storyTl.to({}, { duration: 0.5 }); // hold
       }
       if (i < steps.length - 1) {
-        storyTl.to(step, { autoAlpha: 0, y: -80, duration: 0.9, ease: "power2.in" });
+        storyTl.to(step, { autoAlpha: 0, y: -80, rotationX: -30, duration: 0.9, ease: "power2.in" });
         if (img) {
           storyTl.to(img, { autoAlpha: 0, duration: 0.9 }, "<");
         }
@@ -130,11 +159,14 @@
     });
   }
 
-  // --- Text below the fold: rise and fade in on scroll ---
+  // --- Text below the fold: rises and tips upright in perspective ---
   gsap.utils.toArray("[data-rise]").forEach(function (el) {
     if (el.closest(".hero")) return;
     gsap.from(el, {
       y: 56,
+      rotationX: 24,
+      transformPerspective: 900,
+      transformOrigin: "50% 100%",
       autoAlpha: 0,
       duration: 1.1,
       ease: "power3.out",
@@ -146,10 +178,13 @@
     });
   });
 
-  // --- Grouped text: staggered rise ---
+  // --- Grouped text: staggered rise with the same tilt ---
   gsap.utils.toArray("[data-rise-group]").forEach(function (group) {
     gsap.from(group.children, {
       y: 56,
+      rotationX: 24,
+      transformPerspective: 900,
+      transformOrigin: "50% 100%",
       autoAlpha: 0,
       duration: 1.1,
       ease: "power3.out",
@@ -238,12 +273,16 @@
     });
   });
 
-  // --- Pillar images: slide in from alternating sides ---
+  // --- Pillar images: swing in from alternating sides like opening doors ---
   gsap.utils.toArray(".pillar-media").forEach(function (m, i) {
+    var fromLeft = i % 2 === 0;
     gsap.from(m, {
-      x: i % 2 ? 110 : -110,
+      x: fromLeft ? -110 : 110,
+      rotationY: fromLeft ? 40 : -40,
+      transformPerspective: 1000,
+      transformOrigin: fromLeft ? "0% 50%" : "100% 50%",
       autoAlpha: 0,
-      duration: 1.2,
+      duration: 1.3,
       ease: "power3.out",
       scrollTrigger: {
         trigger: m,
@@ -294,11 +333,27 @@
     });
   }
 
-  // --- The craft, up close: pin and scrub the film strip sideways ---
+  // --- The craft, up close: pin and scrub the film strip sideways.
+  //     Items curve away in perspective like cells on a carousel. ---
   var strip = document.querySelector(".strip");
   if (strip) {
     var stripTrack = strip.querySelector(".strip-track");
+    var stripItems = gsap.utils.toArray(".strip-item");
     strip.classList.add("is-pinned");
+
+    var curveItems = function () {
+      var mid = document.documentElement.clientWidth / 2;
+      stripItems.forEach(function (item) {
+        var r = item.getBoundingClientRect();
+        var offset = gsap.utils.clamp(-1, 1, (r.left + r.width / 2 - mid) / mid);
+        gsap.set(item, {
+          rotationY: offset * -18,
+          z: Math.abs(offset) * -90,
+          transformPerspective: 1200
+        });
+      });
+    };
+
     gsap.to(stripTrack, {
       x: function () {
         return -(stripTrack.scrollWidth - document.documentElement.clientWidth);
@@ -312,7 +367,9 @@
         },
         pin: true,
         scrub: 0.5,
-        invalidateOnRefresh: true
+        invalidateOnRefresh: true,
+        onUpdate: curveItems,
+        onRefresh: curveItems
       }
     });
   }

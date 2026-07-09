@@ -200,6 +200,7 @@ body.menu-open .menu {
   margin-top: 1.6rem;
   position: relative;
   z-index: 2;
+  perspective: 900px;
 }
 
 .menu-list a {
@@ -222,7 +223,8 @@ body.menu-open .menu {
 /* staggered link entrance, driven by the same class */
 .menu-list li {
   opacity: 0;
-  transform: translateY(30px);
+  transform: translateY(30px) rotateX(35deg);
+  transform-origin: 50% 100%;
   transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
