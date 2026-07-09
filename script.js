@@ -90,6 +90,101 @@
     });
   }
 
+  // --- Desktop only: a woven plane of thread drifting behind the wordmark (WebGL).
+  //     Phones never download Three.js; the site works identically without it. ---
+  var wantsHero3D =
+    window.matchMedia("(pointer: fine)").matches && window.innerWidth >= 1024;
+
+  if (wantsHero3D) {
+    var threeScript = document.createElement("script");
+    threeScript.src = "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js";
+    threeScript.onload = initHero3D;
+    document.head.appendChild(threeScript);
+  }
+
+  function initHero3D() {
+    try {
+      var hero = document.querySelector(".hero");
+      var canvas = document.createElement("canvas");
+      canvas.className = "hero-3d";
+      canvas.setAttribute("aria-hidden", "true");
+      hero.prepend(canvas);
+
+      var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+
+      var scene = new THREE.Scene();
+      var camera = new THREE.PerspectiveCamera(55, 1, 0.1, 100);
+      camera.position.set(0, 1.4, 7);
+      camera.lookAt(0, -0.5, 0);
+
+      // a wide plane of "threads" — the weave itself
+      var geo = new THREE.PlaneGeometry(26, 15, 110, 62);
+      var mat = new THREE.MeshBasicMaterial({
+        color: 0x8a3324,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.12
+      });
+      var cloth = new THREE.Mesh(geo, mat);
+      cloth.rotation.x = -Math.PI / 2.5; // laid back, receding like fabric on a table
+      cloth.position.y = -1.6;
+      scene.add(cloth);
+
+      var pos = geo.attributes.position;
+      var base = pos.array.slice();
+      var mouse = { x: 0, y: 0 };
+
+      function size() {
+        var w = hero.clientWidth;
+        var h = hero.clientHeight;
+        renderer.setSize(w, h, false);
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+      }
+      size();
+      window.addEventListener("resize", size);
+
+      hero.addEventListener("mousemove", function (e) {
+        mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = (e.clientY / window.innerHeight) * 2 - 1;
+      });
+
+      // only render while the hero is on screen and the tab is visible
+      var heroVisible = true;
+      ScrollTrigger.create({
+        trigger: hero,
+        start: "top bottom",
+        end: "bottom top",
+        onToggle: function (self) { heroVisible = self.isActive; }
+      });
+
+      var t = 0;
+      function render(time, delta) {
+        if (!heroVisible || document.hidden) return;
+        t += (delta || 16) / 1000;
+        for (var i = 0; i < pos.count; i++) {
+          var x = base[i * 3];
+          var y = base[i * 3 + 1];
+          pos.array[i * 3 + 2] =
+            Math.sin(x * 0.55 + t) * 0.42 +
+            Math.cos(y * 0.7 + t * 0.8) * 0.32 +
+            Math.sin((x + y) * 0.25 + t * 0.5) * 0.22;
+        }
+        pos.needsUpdate = true;
+        cloth.rotation.z += (mouse.x * 0.08 - cloth.rotation.z) * 0.04;
+        camera.position.x += (mouse.x * 0.9 - camera.position.x) * 0.04;
+        camera.position.y += (1.4 - mouse.y * 0.5 - camera.position.y) * 0.04;
+        camera.lookAt(0, -0.5, 0);
+        renderer.render(scene, camera);
+      }
+      gsap.ticker.add(render);
+      render(0, 16); // paint the first frame immediately
+    } catch (e) {
+      // no WebGL — the site simply stays as it is
+    }
+  }
+
   // --- Hero: recedes and fades as you scroll into the story ---
   gsap.to(".hero", {
     yPercent: -8,
